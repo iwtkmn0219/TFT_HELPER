@@ -3,10 +3,6 @@ from classes.comp import Comp
 import pickle
 
 
-def get_champion_info(ls: list, name: str) -> Champion:
-    pass
-
-
 def add_champion(ls: list) -> None:
     flag = True
     while flag:
@@ -73,33 +69,44 @@ def show_pocket(ls: list) -> None:
     print()
 
 
+def tft_value(champion: Champion) -> int:
+    value = 0
+    cost = champion.cost
+    star = champion.star
+    if cost == 1:
+        value += 3
+    elif cost == 2 and star == 1:
+        value += 2
+    elif star == 2 and star == 2:
+        value += 5
+    elif cost == 3:
+        value += 4
+    return value
+
+
+def calculate_possibillity_score(pocket: list, comp: list) -> int:
+    possible_score = 0
+    for champion in comp.champions:
+        for live_champ in pocket:
+            if champion == live_champ.name:
+                possible_score += tft_value(live_champ)
+                break
+    return possible_score
+
+
 def show_possibillity(ls: list) -> None:
     possible_list = []
     with open("comp_list.pkl", "rb") as file:
         comp_list = pickle.load(file)
         for comp in comp_list:
-            possible_score = 0
-            for champion in comp.champions:
-                for curr in ls:
-                    curr_champ = curr.name
-                    if champion == curr_champ:
-                        if curr.cost == 1:
-                            possible_score += 3
-                        elif curr.cost == 2:
-                            if curr.star == 1:
-                                possible_score += 2
-                            elif curr.star == 2:
-                                possible_score += 5
-                        elif curr.cost == 3:
-                            possible_score += 3
-                        break
+            possible_score = calculate_possibillity_score(ls, comp)
             possible_list.append([possible_score, comp])
 
     possible_list.sort(key=lambda x: x[0], reverse=True)
     for i, pos in enumerate(possible_list):
         if i > 5:
             break
-        score, comp = pos
+        score, _ = pos
         if score == 0:
             continue
         print(pos)
