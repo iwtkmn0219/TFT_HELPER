@@ -119,7 +119,7 @@ def show_possibillity(ls: list) -> None:
             continue
         if score != prev_score:
             score_heart = font("♥" * score, "red")
-            print(f"{score_heart} {"=" * (80-score)}")
+            print(f"{score_heart} {"=" * (79-score)}")
         print(f"{comp.name:<14}\t:", end=" ")
         for champion in comp.champions:
             if champion_cost[champion] == 1:
@@ -130,9 +130,9 @@ def show_possibillity(ls: list) -> None:
             elif champion_cost[champion] == 3:
                 ui = font(champion, "blue")
                 print(f"{ui}", end=" ")
-
         print()
         prev_score = score
+    print("=" * 80)
 
 
 if __name__ == "__main__":
