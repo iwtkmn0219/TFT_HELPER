@@ -71,10 +71,11 @@ def show_pocket(pocket: dict) -> None:
             ui = font(k, "green")
         elif champion_cost[k] == 3:
             ui = font(k, "blue")
-        print(f"{ui}", end=" ")
+        print(f"{ui}{'★' * pocket[k].star}", end=" ")
     print()
 
 
+# 기물의 가치를 계산하는 함수
 def tft_value(champion: Champion) -> int:
     value = 0
     cost = champion.cost
@@ -89,16 +90,21 @@ def tft_value(champion: Champion) -> int:
     elif cost == 2:
         if star == 1:
             value += 2
-        if star == 2:
+        elif star == 2:
             value += 5
+        elif star == 3:
+            value += 17
     elif cost == 3:
         if star == 1:
             value += 4
         elif star == 2:
             value += 8
+        elif star == 3:
+            value += 26
     return value
 
 
+# 현재 포켓의 가치를 계산하는 함수
 def calculate_possibillity_score(pocket: dict, comp: list) -> int:
     possible_score = 0
     for champion in comp.champions:
@@ -107,15 +113,18 @@ def calculate_possibillity_score(pocket: dict, comp: list) -> int:
     return possible_score
 
 
+# 빌드업에 사용할 수 있는 가능성들을 보여주는 함수
 def show_possibillity(dic: dict) -> None:
     possible_list = []
+    # comp 읽어오기
     with open("comp_list.pkl", "rb") as file:
         comp_list = pickle.load(file)
         for comp in comp_list:
             possible_score = calculate_possibillity_score(dic, comp)
             possible_list.append([possible_score, comp])
-
+    # 가치기준 정렬
     possible_list.sort(key=lambda x: x[0], reverse=True)
+    # 출력부
     prev_score = 0
     for i, pos in enumerate(possible_list):
         if i > 5:
@@ -129,13 +138,12 @@ def show_possibillity(dic: dict) -> None:
         print(f"{comp.name:<14}\t:", end=" ")
         for champion in comp.champions:
             if champion_cost[champion] == 1:
-                print(f"{champion}", end=" ")
+                ui = champion
             elif champion_cost[champion] == 2:
                 ui = font(champion, "green")
-                print(f"{ui}", end=" ")
             elif champion_cost[champion] == 3:
                 ui = font(champion, "blue")
-                print(f"{ui}", end=" ")
+            print(f"{ui}", end=" ")
         print()
         prev_score = score
     print("=" * 80)
