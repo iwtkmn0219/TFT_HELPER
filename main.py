@@ -6,30 +6,30 @@ import pickle
 champion_cost = {}
 
 
-def add_champion(ls: list) -> None:
+# 정수 판별 함수
+def is_integer(value):
+    try:
+        int(value)
+        return True
+    except ValueError:
+        return False
+
+
+# 챔피언을 포켓에 추가하는 함수
+def add_champion(dic: dict, name: str) -> None:
     flag = True
     while flag:
-        name = input("NAME(0: CANCEL): ")
-        if name == "0":
-            break
-        for champion in ls:
-            if champion.name == name:
-                print(">> OVERLAP")
-                return
-
         # 파일에서 챔피언 정보를 불러와 리스트에 추가한다.
         with open("champion_list.pkl", "rb") as file:
             champion_list = pickle.load(file)
             for champion in champion_list:
                 if champion.name == name:
-                    ls.append(champion)
+                    dic[name] = champion
                     flag = False
                     break
-        # 잘못된 이름인경우 경고 메시지를 출력한다.
-        if flag:
-            print(">> WRONG NAME")
 
 
+# 챔피언을 포켓에서 제거하는 함수
 def del_champion(ls: list) -> None:
     while True:
         try:
@@ -47,27 +47,23 @@ def del_champion(ls: list) -> None:
             print(f">> {e}")
 
 
-def edit_champion(ls: list) -> None:
-    while True:
-        try:
-            i, star = map(int, input("INDEX, STAR(0 0: CANCEL): ").split())
-            if i == 0 and star == 0:
-                return
-            if star <= 3:
-                break
-            print(">> STAR MUST BE LESS THAN 4")
-        except ValueError:
-            print(">> Please input int, int")
-        except IndexError:
-            print(">> WROND INDEX")
-        except Exception as e:
-            print(f">> {e}")
-    ls[i].star = star
+# 포켓의 챔피언을 수정하는 함수
+def edit_champion(pocket: dict, name: str) -> None:
+    order = int(input("OPTION(-1: DOWNGRADE, 0: DELETE, 1: UPGRADE): "))
+    # 다운그레이드
+    if order == -1:
+        pocket[name].star = max(pocket[name].star - 1, 1)
+    # 삭제
+    elif order == 0:
+        pocket.pop(name)
+    # 업그레이드
+    elif order == 1:
+        pocket[name].star = min(pocket[name].star + 1, 3)
 
 
 def show_pocket(ls: list) -> None:
     # show my pocket
-    for i, champion in enumerate(curr_list):
+    for i, champion in enumerate(ls):
         print(f"[{i} {champion}]", end="")
     print()
 
@@ -77,7 +73,12 @@ def tft_value(champion: Champion) -> int:
     cost = champion.cost
     star = champion.star
     if cost == 1:
-        value += 3
+        if star == 1:
+            value += 1
+        elif star == 2:
+            value += 3
+        elif star == 3:
+            value += 9
     elif cost == 2:
         if star == 1:
             value += 2
@@ -91,22 +92,20 @@ def tft_value(champion: Champion) -> int:
     return value
 
 
-def calculate_possibillity_score(pocket: list, comp: list) -> int:
+def calculate_possibillity_score(pocket: dict, comp: list) -> int:
     possible_score = 0
     for champion in comp.champions:
-        for live_champ in pocket:
-            if champion == live_champ.name:
-                possible_score += tft_value(live_champ)
-                break
+        if champion in pocket:
+            possible_score += tft_value(pocket[champion])
     return possible_score
 
 
-def show_possibillity(ls: list) -> None:
+def show_possibillity(dic: dict) -> None:
     possible_list = []
     with open("comp_list.pkl", "rb") as file:
         comp_list = pickle.load(file)
         for comp in comp_list:
-            possible_score = calculate_possibillity_score(ls, comp)
+            possible_score = calculate_possibillity_score(dic, comp)
             possible_list.append([possible_score, comp])
 
     possible_list.sort(key=lambda x: x[0], reverse=True)
@@ -137,7 +136,7 @@ def show_possibillity(ls: list) -> None:
 
 if __name__ == "__main__":
     print("WELCOME!")
-    curr_list = []
+    pocket = {}
 
     with open("champion_list.pkl", "rb") as file:
         champion_list = pickle.load(file)
@@ -145,17 +144,35 @@ if __name__ == "__main__":
             champion_cost[champion.name] = champion.cost
 
     while True:
-        mode = input("MODE(0: EXIT, 1: ADD, 2: DEL, 3: EDIT, 4: CLEAR): ")
-        if mode == "0":
-            break
-        elif mode == "1":
-            add_champion(curr_list)
-        elif mode == "2":
-            del_champion(curr_list)
-        elif mode == "3":
-            edit_champion(curr_list)
-        elif mode == "4":
-            curr_list = []
+        try:
+            line = input("INPUT CHAMPION'S NAME(-1: EXIT, 0: CLEAR): ")
+            input_type = type(line)
+            # int인 경우
+            if is_integer(line):
+                order = int(line)
+                # 종료 코드
+                if order == -1:
+                    print("EXIT")
+                    break
+                # 포켓 비우기
+                if order == 0:
+                    print("POCKET CLEAR")
+                    pocket = {}
+            # str인 경우
+            else:
+                champion = line
+                # 잘못된 이름인 경우
+                if champion not in champion_cost:
+                    print("WRONG INPUT")
+                    continue
+                # 이미 포켓에 있는 경우
+                if champion in pocket:
+                    edit_champion(pocket, champion)
+                # 새로운 기물일 경우
+                else:
+                    add_champion(pocket, champion)
+        except Exception as e:
+            print(f">> {e}")
 
-        show_pocket(curr_list)
-        show_possibillity(curr_list)
+        show_pocket(pocket)
+        show_possibillity(pocket)
