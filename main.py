@@ -2,8 +2,19 @@ from classes.champion import Champion
 from classes.comp import Comp
 from style.style import font
 import pickle
+import os
 
 champion_cost = {}
+
+
+# 프롬프트를 지우는 함수
+def clear_screen() -> None:
+    # Windows 시스템인지 확인하고 'cls' 명령 사용
+    if os.name == "nt":
+        os.system("cls")
+    # Unix/Linux 및 macOS 시스템에서는 'clear' 명령 사용
+    else:
+        os.system("clear")
 
 
 # 정수 판별 함수
@@ -171,21 +182,21 @@ if __name__ == "__main__":
                     break
                 # 포켓 비우기
                 if order == 0:
+                    clear_screen()
                     print("POCKET CLEAR")
                     pocket = {}
             # str인 경우
             else:
                 champion = line
-                # 잘못된 이름인 경우
-                if champion not in champion_cost:
-                    print("WRONG INPUT")
-                    continue
-                # 이미 포켓에 있는 경우
-                if champion in pocket:
-                    edit_champion(pocket, champion)
-                # 새로운 기물일 경우
-                else:
-                    add_champion(pocket, champion)
+                # 올바른 이름인 경우
+                if champion in champion_cost:
+                    # 이미 포켓에 있는 경우
+                    if champion in pocket:
+                        edit_champion(pocket, champion)
+                    # 새로운 기물일 경우
+                    else:
+                        add_champion(pocket, champion)
+                clear_screen()
         except Exception as e:
             print(f">> {e}")
 
