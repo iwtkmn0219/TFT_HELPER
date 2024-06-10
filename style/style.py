@@ -8,6 +8,7 @@ CYAN = "\033[36m"
 WHITE = "\033[37m"
 RESET = "\033[0m"
 
+
 def font(text: str, color: str) -> str:
     if color == "black":
         return BLACK + text + RESET
