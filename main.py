@@ -61,10 +61,17 @@ def edit_champion(pocket: dict, name: str) -> None:
         pocket[name].star = min(pocket[name].star + 1, 3)
 
 
-def show_pocket(ls: list) -> None:
+# 현재 포켓을 보여주는 함수
+def show_pocket(pocket: dict) -> None:
     # show my pocket
-    for i, champion in enumerate(ls):
-        print(f"[{i} {champion}]", end="")
+    for k, _ in pocket.items():
+        if champion_cost[k] == 1:
+            ui = k
+        elif champion_cost[k] == 2:
+            ui = font(k, "green")
+        elif champion_cost[k] == 3:
+            ui = font(k, "blue")
+        print(f"{ui}", end=" ")
     print()
 
 
