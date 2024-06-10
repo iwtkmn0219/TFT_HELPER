@@ -3,6 +3,39 @@ from classes.comp import Comp
 import pickle
 
 
+BLACK = "\033[30m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+VIOLET = "\033[35m"
+CYAN = "\033[36m"
+WHITE = "\033[37m"
+RESET = "\033[0m"
+
+
+champion_cost = {}
+
+
+def font(text: str, color: str) -> str:
+    if color == "black":
+        return BLACK + text + RESET
+    if color == "red":
+        return RED + text + RESET
+    elif color == "green":
+        return GREEN + text + RESET
+    elif color == "yellow":
+        return YELLOW + text + RESET
+    elif color == "blue":
+        return BLUE + text + RESET
+    elif color == "violet":
+        return VIOLET + text + RESET
+    elif color == "cyan":
+        return CYAN + text + RESET
+    elif color == "white":
+        return WHITE + text + RESET
+
+
 def add_champion(ls: list) -> None:
     flag = True
     while flag:
@@ -103,20 +136,42 @@ def show_possibillity(ls: list) -> None:
             possible_list.append([possible_score, comp])
 
     possible_list.sort(key=lambda x: x[0], reverse=True)
+    prev_score = 0
     for i, pos in enumerate(possible_list):
         if i > 5:
             break
-        score, _ = pos
+        score, comp = pos
         if score == 0:
             continue
-        print(pos)
+        if score != prev_score:
+            score_heart = font("♥" * score, "red")
+            print(f"{score_heart} {"=" * (80-score)}")
+        print(f"{comp.name:<14}\t:", end=" ")
+        for champion in comp.champions:
+            if champion_cost[champion] == 1:
+                print(f"{champion}", end=" ")
+            elif champion_cost[champion] == 2:
+                ui = font(champion, "green")
+                print(f"{ui}", end=" ")
+            elif champion_cost[champion] == 3:
+                ui = font(champion, "blue")
+                print(f"{ui}", end=" ")
+
+        print()
+        prev_score = score
 
 
 if __name__ == "__main__":
     print("WELCOME!")
     curr_list = []
+
+    with open("champion_list.pkl", "rb") as file:
+        champion_list = pickle.load(file)
+        for champion in champion_list:
+            champion_cost[champion.name] = champion.cost
+
     while True:
-        mode = input("MODE(0: EXIT, 1: ADD, 2: DEL, 3: EDIT): ")
+        mode = input("MODE(0: EXIT, 1: ADD, 2: DEL, 3: EDIT, 4: CLEAR): ")
         if mode == "0":
             break
         elif mode == "1":
@@ -125,6 +180,8 @@ if __name__ == "__main__":
             del_champion(curr_list)
         elif mode == "3":
             edit_champion(curr_list)
+        elif mode == "4":
+            curr_list = []
 
         show_pocket(curr_list)
         show_possibillity(curr_list)
