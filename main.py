@@ -78,12 +78,16 @@ def tft_value(champion: Champion) -> int:
     star = champion.star
     if cost == 1:
         value += 3
-    elif cost == 2 and star == 1:
-        value += 2
-    elif star == 2 and star == 2:
-        value += 5
+    elif cost == 2:
+        if star == 1:
+            value += 2
+        if star == 2:
+            value += 5
     elif cost == 3:
-        value += 4
+        if star == 1:
+            value += 4
+        elif star == 2:
+            value += 8
     return value
 
 
