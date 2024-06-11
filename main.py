@@ -138,8 +138,6 @@ def show_possibillity(dic: dict) -> None:
     # 출력부
     prev_score = 0
     for i, pos in enumerate(possible_list):
-        if i > 5:
-            break
         score, comp = pos
         if score == 0:
             continue
