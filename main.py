@@ -95,19 +95,19 @@ def tft_value(champion: Champion) -> int:
         if star == 1:
             value += 1
         elif star == 2:
-            value += 3
+            value += 4
         elif star == 3:
             value += 9
     elif cost == 2:
         if star == 1:
-            value += 2
+            value += 1
         elif star == 2:
             value += 5
         elif star == 3:
             value += 17
     elif cost == 3:
         if star == 1:
-            value += 4
+            value += 3
         elif star == 2:
             value += 8
         elif star == 3:
