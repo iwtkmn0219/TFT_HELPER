@@ -5,6 +5,8 @@ import pickle
 import os
 
 champion_cost = {}
+possible_list = []
+pocket = {}
 
 
 # 프롬프트를 지우는 함수
@@ -27,7 +29,7 @@ def is_integer(value):
 
 
 # 챔피언을 포켓에 추가하는 함수
-def add_champion(dic: dict, name: str) -> None:
+def add_champion(name: str) -> None:
     flag = True
     while flag:
         # 파일에서 챔피언 정보를 불러와 리스트에 추가한다.
@@ -35,7 +37,7 @@ def add_champion(dic: dict, name: str) -> None:
             champion_list = pickle.load(file)
             for champion in champion_list:
                 if champion.name == name:
-                    dic[name] = champion
+                    pocket[name] = champion
                     flag = False
                     break
 
@@ -59,7 +61,7 @@ def del_champion(ls: list) -> None:
 
 
 # 포켓의 챔피언을 수정하는 함수
-def edit_champion(pocket: dict, name: str) -> None:
+def edit_champion(name: str) -> None:
     order = int(input("OPTION(-1: DOWNGRADE, 0: DELETE, 1: UPGRADE): "))
     # 다운그레이드
     if order == -1:
@@ -73,7 +75,7 @@ def edit_champion(pocket: dict, name: str) -> None:
 
 
 # 현재 포켓을 보여주는 함수
-def show_pocket(pocket: dict) -> None:
+def show_pocket() -> None:
     # show my pocket
     for k, _ in pocket.items():
         if champion_cost[k] == 1:
@@ -116,7 +118,7 @@ def tft_value(champion: Champion) -> int:
 
 
 # 현재 포켓의 가치를 계산하는 함수
-def calculate_possibillity_score(pocket: dict, comp: list) -> int:
+def calculate_possibillity_score(comp: list) -> int:
     possible_score = 0
     for champion in comp.champions:
         if champion in pocket:
@@ -124,17 +126,22 @@ def calculate_possibillity_score(pocket: dict, comp: list) -> int:
     return possible_score
 
 
-# 빌드업에 사용할 수 있는 가능성들을 보여주는 함수
-def show_possibillity(dic: dict) -> None:
-    possible_list = []
+def update_possibillity() -> None:
+    # 리스트 비우기
+    possible_list.clear()
     # comp 읽어오기
     with open("comp_list.pkl", "rb") as file:
         comp_list = pickle.load(file)
         for comp in comp_list:
-            possible_score = calculate_possibillity_score(dic, comp)
+            possible_score = calculate_possibillity_score(comp)
             possible_list.append([possible_score, comp])
     # 가치기준 정렬
     possible_list.sort(key=lambda x: x[0], reverse=True)
+    pass
+
+
+# 빌드업에 사용할 수 있는 가능성들을 보여주는 함수
+def show_possibillity() -> None:
     # 출력부
     prev_score = 0
     for i, pos in enumerate(possible_list):
@@ -158,9 +165,12 @@ def show_possibillity(dic: dict) -> None:
     print("=" * 80)
 
 
+def show_less_important_pieces():
+    pass
+
+
 if __name__ == "__main__":
     print("WELCOME!")
-    pocket = {}
 
     with open("champion_list.pkl", "rb") as file:
         champion_list = pickle.load(file)
@@ -190,13 +200,14 @@ if __name__ == "__main__":
                 if champion in champion_cost:
                     # 이미 포켓에 있는 경우
                     if champion in pocket:
-                        edit_champion(pocket, champion)
+                        edit_champion(champion)
                     # 새로운 기물일 경우
                     else:
-                        add_champion(pocket, champion)
+                        add_champion(champion)
                 clear_screen()
         except Exception as e:
             print(f">> {e}")
 
-        show_pocket(pocket)
-        show_possibillity(pocket)
+        show_pocket()
+        update_possibillity()
+        show_possibillity()
