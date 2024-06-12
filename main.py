@@ -221,7 +221,6 @@ if __name__ == "__main__":
                 # 포켓 비우기
                 if order == 0:
                     clear_screen()
-                    print("POCKET CLEAR")
                     pocket = {}
             # str인 경우
             else:
