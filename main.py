@@ -190,12 +190,26 @@ def show_less_important_champions(star: int) -> None:
     print()
 
 
+def show_importance() -> None:
+    ls = list(champion_importance.items())
+    ls.sort(key=lambda x: x[1], reverse=True)
+    # print(ls)
+    prev_importance = 0
+    for champion, importance in ls:
+        if importance != prev_importance:
+            prev_importance = importance
+            print(f'\n{importance}:', end=' ')
+        print(f"{champion}", end=' ')
+    print()
+
+
 def display() -> None:
     show_pocket()
     update_possibillity()
     show_possibillity()
     update_importance()
-    show_less_important_champions(1)
+    # show_less_important_champions(1)
+    show_importance()
 
 
 if __name__ == "__main__":
