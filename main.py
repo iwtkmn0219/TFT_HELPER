@@ -134,7 +134,6 @@ def update_possibillity() -> None:
             possible_list.append([possible_score, comp])
     # 가치기준 정렬
     possible_list.sort(key=lambda x: x[0], reverse=True)
-    pass
 
 
 # 빌드업에 사용할 수 있는 가능성들을 보여주는 함수
@@ -156,6 +155,7 @@ def show_possibillity() -> None:
     print("=" * 80)
 
 
+# 필요도를 업데이트하는 함수
 def update_importance() -> None:
     champion_importance.clear()
     for champion in champion_cost:
@@ -168,32 +168,33 @@ def update_importance() -> None:
                     champion_importance[champion] += 1
 
 
+# 특정 코스트에서 필요없는 챔피언들을 보여주는 함수
 def show_less_important_champions(star: int) -> None:
     for k, v in champion_importance.items():
         if v == 0 and champion_cost[k] == star:
-            print(st.champion_colored(k), end=' ')
+            print(st.champion_colored(k), end=" ")
     print()
 
 
+# 필요도를 보여주는 함수
 def show_importance() -> None:
     ls = list(champion_importance.items())
     ls.sort(key=lambda x: x[1], reverse=True)
-    # print(ls)
     prev_importance = 0
     for champion, importance in ls:
         if importance != prev_importance:
             prev_importance = importance
-            print(f'\n{importance}:', end=' ')
-        print(f"{st.champion_colored(champion)}", end=' ')
+            print(f"\n{importance}:", end=" ")
+        print(f"{st.champion_colored(champion)}", end=" ")
     print()
 
 
+# 출력부를 묶어놓은 함수
 def display() -> None:
     show_pocket()
     update_possibillity()
     show_possibillity()
     update_importance()
-    # show_less_important_champions(1)
     show_importance()
 
 
