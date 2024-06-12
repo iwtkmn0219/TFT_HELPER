@@ -1,6 +1,6 @@
 from classes.champion import Champion
 from classes.comp import Comp
-from style.style import font
+import style.style as st
 import pickle
 import os
 
@@ -79,13 +79,9 @@ def edit_champion(name: str) -> None:
 def show_pocket() -> None:
     # show my pocket
     for k, _ in pocket.items():
-        if champion_cost[k] == 1:
-            ui = k
-        elif champion_cost[k] == 2:
-            ui = font(k, "green")
-        elif champion_cost[k] == 3:
-            ui = font(k, "blue")
-        print(f"{ui}{'★' * pocket[k].star}", end=" ")
+        name = st.champion_colored(k)
+        star = pocket[k].star
+        print(f"{name}{'★' * star}", end=" ")
     print()
 
 
@@ -150,17 +146,11 @@ def show_possibillity() -> None:
         if score == 0:
             continue
         if score != prev_score:
-            score_heart = font("♥" * score, "red")
+            score_heart = st.font("♥" * score, "red")
             print(f"{score_heart} {"=" * (79-score)}")
         print(f"{comp.name:<14}\t:", end=" ")
         for champion in comp.champions:
-            if champion_cost[champion] == 1:
-                ui = champion
-            elif champion_cost[champion] == 2:
-                ui = font(champion, "green")
-            elif champion_cost[champion] == 3:
-                ui = font(champion, "blue")
-            print(f"{ui}", end=" ")
+            print(f"{st.champion_colored(champion)}", end=" ")
         print()
         prev_score = score
     print("=" * 80)
@@ -181,12 +171,7 @@ def update_importance() -> None:
 def show_less_important_champions(star: int) -> None:
     for k, v in champion_importance.items():
         if v == 0 and champion_cost[k] == star:
-            if star == 1:
-                print(k, end=" ")
-            if star == 2:
-                print(font(k, "green"), end=" ")
-            if star == 3:
-                print(font(k, "blue"), end=" ")
+            print(st.champion_colored(k), end=' ')
     print()
 
 
@@ -199,7 +184,7 @@ def show_importance() -> None:
         if importance != prev_importance:
             prev_importance = importance
             print(f'\n{importance}:', end=' ')
-        print(f"{champion}", end=' ')
+        print(f"{st.champion_colored(champion)}", end=' ')
     print()
 
 

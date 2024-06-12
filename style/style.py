@@ -1,3 +1,5 @@
+import pickle
+
 BLACK = "\033[30m"
 RED = "\033[31m"
 GREEN = "\033[32m"
@@ -26,3 +28,18 @@ def font(text: str, color: str) -> str:
         return CYAN + text + RESET
     elif color == "white":
         return WHITE + text + RESET
+
+
+def champion_colored(name: str) -> str:
+    champion_cost = {}
+    with open("champion_list.pkl", "rb") as file:
+        champion_list = pickle.load(file)
+        for champion in champion_list:
+            champion_cost[champion.name] = champion.cost
+    cost = champion_cost[name]
+    if cost == 1:
+        return name
+    elif cost == 2:
+        return font(name, "green")
+    elif cost == 3:
+        return font(name, "blue")
