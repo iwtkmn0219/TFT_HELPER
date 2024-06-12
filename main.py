@@ -190,6 +190,14 @@ def show_less_important_champions(star: int) -> None:
     print()
 
 
+def display() -> None:
+    show_pocket()
+    update_possibillity()
+    show_possibillity()
+    update_importance()
+    show_less_important_champions(1)
+
+
 if __name__ == "__main__":
     clear_screen()
     print("WELCOME!")
@@ -229,9 +237,4 @@ if __name__ == "__main__":
                 clear_screen()
         except Exception as e:
             print(f">> {e}")
-
-        show_pocket()
-        update_possibillity()
-        show_possibillity()
-        update_importance()
-        show_less_important_champions(1)
+        display()
