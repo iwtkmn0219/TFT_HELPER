@@ -5,6 +5,7 @@ import pickle
 import os
 
 champion_cost = {}
+champion_importance = {}
 possible_list = []
 pocket = {}
 
@@ -165,11 +166,32 @@ def show_possibillity() -> None:
     print("=" * 80)
 
 
-def show_less_important_pieces():
-    pass
+def update_importance() -> None:
+    champion_importance.clear()
+    for champion in champion_cost:
+        champion_importance[champion] = 0
+    # 각 챔피언의 필요도 체크 (필요도: 얼마나 많은 comp에 기용될 수 있는가)
+    for score, comp in possible_list:
+        if score > 0:
+            for champion in comp.champions:
+                if champion in champion_importance:
+                    champion_importance[champion] += 1
+
+
+def show_less_important_champions(star: int) -> None:
+    for k, v in champion_importance.items():
+        if v == 0 and champion_cost[k] == star:
+            if star == 1:
+                print(k, end=" ")
+            if star == 2:
+                print(font(k, "green"), end=" ")
+            if star == 3:
+                print(font(k, "blue"), end=" ")
+    print()
 
 
 if __name__ == "__main__":
+    clear_screen()
     print("WELCOME!")
 
     with open("champion_list.pkl", "rb") as file:
@@ -211,3 +233,5 @@ if __name__ == "__main__":
         show_pocket()
         update_possibillity()
         show_possibillity()
+        update_importance()
+        show_less_important_champions(1)
