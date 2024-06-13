@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, Response, render_template
 import pickle
 import json
 
@@ -13,17 +13,30 @@ with open("champion_list.pkl", "rb") as file:
 with open("comp_list.pkl", "rb") as file:
     comp_list = pickle.load(file)
 
-@app.route('/get_comps', methods=['POST'])
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@app.route("/get_comps", methods=["POST"])
 def get_comps():
     data = request.json
-    pocket = data.get('champions', [])
+    pocket = data.get("champions", [])
 
-    # 조합 필터링 로직?
-    valid_comps = [comp for comp in comp_list if all(champion in comp.champions for champion in pocket)]
+    # 조합 필터링 로직
+    valid_comps = [
+        comp
+        for comp in comp_list
+        if all(champion in comp.champions for champion in pocket)
+    ]
 
     # JSON 변환
     valid_comps_json = [comp.to_dict() for comp in valid_comps]
-    response = Response(json.dumps(valid_comps_json, ensure_ascii=False), content_type='application/json; charset=utf-8')
+    response = Response(
+        json.dumps(valid_comps_json, ensure_ascii=False),
+        content_type="application/json; charset=utf-8",
+    )
 
     return response
 
