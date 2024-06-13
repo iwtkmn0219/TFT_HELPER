@@ -149,7 +149,10 @@ def show_possibillity() -> None:
             print(f"{score_heart} {"=" * (79-score)}")
         print(f"{comp.name:<14}\t:", end=" ")
         for champion in comp.champions:
-            print(f"{st.champion_colored(champion)}", end=" ")
+            if champion in pocket:
+                print(f"{st.font(champion, 'red')}", end=" ")
+            else:
+                print(f"{st.champion_colored(champion)}", end=" ")
         print()
         prev_score = score
     print("=" * 80)
