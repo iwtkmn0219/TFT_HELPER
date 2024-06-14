@@ -31,7 +31,7 @@ def get_comps():
         champion_dict[champion] for champion in selected_champions
     ]
     # comp 추천 알고리즘 호출
-    recommended_comps = recommend_comps(selected_champions, comp_list)
+    recommended_comps = recommend_comps(selected_champion_objects)
 
     # JSON 변환
     recommend_comps_json = [comp.to_dict() for comp in recommended_comps]
