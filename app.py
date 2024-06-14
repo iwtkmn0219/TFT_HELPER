@@ -34,7 +34,10 @@ def get_comps():
     recommended_comps = recommend_comps(selected_champion_objects)
 
     # JSON 변환
-    recommend_comps_json = [comp.to_dict() for comp in recommended_comps]
+    recommend_comps_json = [
+        {"score": comp_and_value[0], "comp": comp_and_value[1].to_dict()}
+        for comp_and_value in recommended_comps
+    ]
     response = Response(
         json.dumps(recommend_comps_json, ensure_ascii=False),
         content_type="application/json; charset=utf-8",

@@ -28,7 +28,7 @@ def recommend_comps(selected_champions: list) -> list:
         comp_value_list.append([comp_score, comp])
     # 가치 기준 정렬
     comp_value_list.sort(key=lambda x: x[0], reverse=True)
-    recommend_comps = [ls[1] for ls in comp_value_list]
+    recommend_comps = [ls for ls in comp_value_list]
     return recommend_comps
 
 

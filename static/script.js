@@ -48,9 +48,9 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 resultsDiv.innerHTML = '';
-                data.forEach(comp => {
+                data.forEach(item => {
                     let compDiv = document.createElement('div');
-                    compDiv.innerText = `조합 이름: ${comp.name}, 챔피언: ${comp.champions.join(', ')}`;
+                    compDiv.innerText = `${item.score} 조합 이름: ${item.comp.name}, 챔피언: ${item.comp.champions.join(', ')}`;
                     resultsDiv.appendChild(compDiv);
                 });
             });
