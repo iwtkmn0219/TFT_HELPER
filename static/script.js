@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     let selectedChampions = [];
+    let championDict = {};
 
-    let championSelectionDiv = document.getElementById('champion-selection');
+    let cost1Div = document.getElementById('cost-1');
+    let cost2Div = document.getElementById('cost-2');
+    let cost3Div = document.getElementById('cost-3');
+    // let championSelectionDiv = document.getElementById('champion-selection');
     let selectedChampionsDiv = document.getElementById('selected-champions');
     let resultsDiv = document.getElementById('results');
     let resetButton = document.getElementById('reset-button');
@@ -12,16 +16,26 @@ document.addEventListener('DOMContentLoaded', function () {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(response => response.json()).then(champions => {
-        champions.forEach(champion => {
-            let button = document.createElement('div');
-            button.innerText = champion.name;
-            button.onclick = function () {
-                toggleChampion(champion.name);
-            };
-            championSelectionDiv.appendChild(button);
+    }).then(response => response.json())
+        .then(champions => {
+            champions.forEach(champion => {
+                championDict[champion.name] = champion;
+
+                let button = document.createElement('div');
+                button.innerText = champion.name;
+                button.classList.add(`cost-${champion.cost}`)
+                button.onclick = function () {
+                    toggleChampion(champion.name);
+                };
+                if (champion.cost === 1) {
+                    cost1Div.appendChild(button);
+                } else if (champion.cost === 2) {
+                    cost2Div.appendChild(button);
+                } else if (champion.cost === 3) {
+                    cost3Div.appendChild(button);
+                }
+            });
         });
-    });
 
     function toggleChampion(champion) {
         const index = selectedChampions.indexOf(champion);
@@ -39,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedChampions.forEach(champion => {
             let hex = document.createElement('div');
             hex.innerText = champion;
+            hex.classList.add(`cost-${championDict[champion].cost}`)
             hex.onclick = function () {
                 toggleChampion(champion);
             }
