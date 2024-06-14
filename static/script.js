@@ -1,25 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let champions = ["가렌", "잭스", "시비르", "리븐", "자이라", "조이"];
     let selectedChampions = [];
 
     let championSelectionDiv = document.getElementById('champion-selection');
     let selectedChampionsDiv = document.getElementById('selected-champions');
     let resultsDiv = document.getElementById('results');
 
-    champions.forEach(champion => {
-        let button = document.createElement('button');
-        button.innerText = champion;
-        button.onclick = function () {
-            addChampion(champion);
-        };
-        championSelectionDiv.appendChild(button);
+    // 챔피언 목록을 서버에서 불러오기
+    fetch('/get_champion_list', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json()).then(champions => {
+        champions.forEach(champion => {
+            let button = document.createElement('button');
+            button.innerText = champion.name;
+            button.onclick = function () {
+                addChampion(champion.name);
+            };
+            championSelectionDiv.appendChild(button);
+        });
     });
 
     function addChampion(champion) {
         if (!selectedChampions.includes(champion)) {
             selectedChampions.push(champion);
             updateSelectedChampions();
-            updateCombinations();
+            updateComps();
         }
     }
 
@@ -27,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedChampionsDiv.innerHTML = selectedChampions.join(', ');
     }
 
-    function updateCombinations() {
+    function updateComps() {
         fetch('/get_comps', {
             method: 'POST',
             headers: {

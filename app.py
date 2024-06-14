@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # 데이터 불러오기
 with open("champion_list.pkl", "rb") as file:
-    champions_list = pickle.load(file)
+    champion_list = pickle.load(file)
 with open("comp_list.pkl", "rb") as file:
     comp_list = pickle.load(file)
 
@@ -38,6 +38,12 @@ def get_comps():
         content_type="application/json; charset=utf-8",
     )
 
+    return response
+
+@app.route('/get_champion_list', methods=['GET'])
+def get_champion_list():
+    champion_list_dicts = [champion.to_dict() for champion in champion_list]
+    response = Response(json.dumps(champion_list_dicts, ensure_ascii=False), content_type='application/json; charset=utf-8')
     return response
 
 
