@@ -11,6 +11,7 @@ app = Flask(__name__)
 # 데이터 불러오기
 with open("champion_list.pkl", "rb") as file:
     champion_list = pickle.load(file)
+    champion_dict = {champion.name: champion for champion in champion_list}
 with open("comp_list.pkl", "rb") as file:
     comp_list = pickle.load(file)
 
@@ -25,6 +26,10 @@ def get_comps():
     data = request.json
     selected_champions = data.get("champions", [])
 
+    # 선택된 챔피언들을 객체로 변환
+    selected_champion_objects = [
+        champion_dict[champion] for champion in selected_champions
+    ]
     # comp 추천 알고리즘 호출
     recommended_comps = recommend_comps(selected_champions, comp_list)
 
