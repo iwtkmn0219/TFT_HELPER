@@ -39,10 +39,6 @@ h2 {
     background-position: center;
 }
 
-/* .hex-grid>div:hover {
-    background-color: #FFA500;
-} */
-
 .cost-1 {
     background-color: #848999;
 }
@@ -99,4 +95,27 @@ button:hover {
     justify-content: space-between;
     align-items: center;
     color: #FFA500;
+}
+
+.comps-list .champion-portraits {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.comps-list .champion-portraits>div .champion-image {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    margin-left: 5px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-size: cover;
+    background-position: center;
+}
+
+.comps-list .champion-portraits>div .champion-name {
+    margin-top: 2px;
+    font-size: 11px;
+    text-align: center;
 }

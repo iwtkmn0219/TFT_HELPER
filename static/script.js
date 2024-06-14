@@ -70,13 +70,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ champions: selectedChampions })
-        })
-            .then(response => response.json())
+        }).then(response => response.json())
             .then(data => {
                 resultsDiv.innerHTML = '';
                 data.forEach(item => {
                     let compDiv = document.createElement('div');
-                    compDiv.innerText = `${item.score} 조합 이름: ${item.comp.name}, 챔피언: ${item.comp.champions.join(', ')}`;
+                    compDiv.innerText = `${item.score} ${item.comp.name}`;
+
+                    let championPortraits = document.createElement('div');
+                    championPortraits.classList.add('champion-portraits');
+
+                    item.comp.champions.forEach(championName => {
+                        let championDiv = document.createElement('div');
+
+                        let imageDiv = document.createElement('div');
+                        imageDiv.classList.add('champion-image');
+                        imageDiv.style.backgroundImage = `url('/static/images/champions/cost-${championDict[championName].cost}/${championName}.jpeg')`;
+
+                        let nameDiv = document.createElement('div');
+                        nameDiv.classList.add('champion-name');
+                        nameDiv.innerText = championName;
+
+                        championDiv.appendChild(imageDiv);
+                        championDiv.appendChild(nameDiv);
+
+                        championPortraits.appendChild(championDiv);
+                    });
+
+                    compDiv.appendChild(championPortraits);
                     resultsDiv.appendChild(compDiv);
                 });
             });
