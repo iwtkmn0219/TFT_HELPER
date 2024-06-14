@@ -16,18 +16,21 @@ document.addEventListener('DOMContentLoaded', function () {
             let button = document.createElement('button');
             button.innerText = champion.name;
             button.onclick = function () {
-                addChampion(champion.name);
+                toggleChampion(champion.name);
             };
             championSelectionDiv.appendChild(button);
         });
     });
 
-    function addChampion(champion) {
-        if (!selectedChampions.includes(champion)) {
-            selectedChampions.push(champion);
-            updateSelectedChampions();
-            updateComps();
+    function toggleChampion(champion) {
+        const index = selectedChampions.indexOf(champion);
+        if (index > -1) {
+            selectedChampions.splice(index, 1);
+        } else {
+            selectedChampions.push(champion)
         }
+        updateSelectedChampions();
+        updateComps();
     }
 
     function updateSelectedChampions() {
