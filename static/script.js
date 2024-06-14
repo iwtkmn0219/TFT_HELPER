@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let button = document.createElement('div');
                 button.innerText = champion.name;
                 button.classList.add(`cost-${champion.cost}`)
+                button.style.backgroundImage = `url('/static/images/champions/cost-${championDict[champion.name].cost}/${champion.name}.jpeg')`;
                 button.onclick = function () {
                     toggleChampion(champion.name);
                 };
@@ -54,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let hex = document.createElement('div');
             hex.innerText = champion;
             hex.classList.add(`cost-${championDict[champion].cost}`)
+            hex.style.backgroundImage = `url('/static/images/champions/cost-${championDict[champion].cost}/${champion}.jpeg')`;
             hex.onclick = function () {
                 toggleChampion(champion);
             }

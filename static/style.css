@@ -35,6 +35,8 @@ h2 {
     justify-content: center;
     cursor: pointer;
     transition: background-color 0.3s;
+    background-size: cover;
+    background-position: center;
 }
 
 /* .hex-grid>div:hover {
