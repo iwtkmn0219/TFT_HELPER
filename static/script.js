@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }).then(response => response.json()).then(champions => {
         champions.forEach(champion => {
-            let button = document.createElement('button');
+            let button = document.createElement('div');
             button.innerText = champion.name;
             button.onclick = function () {
                 toggleChampion(champion.name);
@@ -28,14 +28,22 @@ document.addEventListener('DOMContentLoaded', function () {
         if (index > -1) {
             selectedChampions.splice(index, 1);
         } else {
-            selectedChampions.push(champion)
+            selectedChampions.push(champion);
         }
         updateSelectedChampions();
         updateComps();
     }
 
     function updateSelectedChampions() {
-        selectedChampionsDiv.innerHTML = selectedChampions.join(', ');
+        selectedChampionsDiv.innerHTML = '';
+        selectedChampions.forEach(champion => {
+            let hex = document.createElement('div');
+            hex.innerText = champion;
+            hex.onclick = function () {
+                toggleChampion(champion);
+            }
+            selectedChampionsDiv.appendChild(hex);
+        });
     }
 
     function updateComps() {
