@@ -9,15 +9,19 @@
 </head>
 
 <body>
-    <h1>TFT 빌드업 헬퍼</h1>
-    <div id="champion-selection">
-        <!-- 챔피언 버튼이 동적으로 추가될 영역 -->
+    <div class="container">
+        <h1>TFT Build Up Helper</h1>
+        <div id="champion-selection" class="hex-grid">
+            <!-- 챔피언 버튼이 동적으로 추가될 영역 -->
+        </div>
+        <div class="pocket-container">
+            <h2>POCKET</h2>
+            <button id="reset-button">리셋</button>
+        </div>
+        <div id="selected-champions" class="hex-grid"></div>
+        <h2>COMPS</h2>
+        <div id="results" class="comps-list"></div>
     </div>
-    <h2>POCKET</h2>
-    <div id="selected-champions"></div>
-    <button id="reset-button">리셋</button>
-    <h2>COMP</h2>
-    <div id="results"></div>
     <script src="/static/script.js"></script>
 </body>
 
