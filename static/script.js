@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let championSelectionDiv = document.getElementById('champion-selection');
     let selectedChampionsDiv = document.getElementById('selected-champions');
     let resultsDiv = document.getElementById('results');
+    let resetButton = document.getElementById('reset-button');
 
     // 챔피언 목록을 서버에서 불러오기
     fetch('/get_champion_list', {
@@ -54,5 +55,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     resultsDiv.appendChild(compDiv);
                 });
             });
+    }
+
+    resetButton.onclick = function () {
+        selectedChampions = [];
+        updateSelectedChampions();
+        updateComps();
     }
 });
