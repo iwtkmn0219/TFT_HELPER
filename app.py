@@ -4,6 +4,7 @@ import json
 
 from classes.champion import Champion
 from classes.comp import Comp
+from algorithm.recommendation import recommend_comps
 
 app = Flask(__name__)
 
@@ -22,28 +23,28 @@ def index():
 @app.route("/get_comps", methods=["POST"])
 def get_comps():
     data = request.json
-    pocket = data.get("champions", [])
+    selected_champions = data.get("champions", [])
 
-    # 조합 필터링 로직
-    valid_comps = [
-        comp
-        for comp in comp_list
-        if all(champion in comp.champions for champion in pocket)
-    ]
+    # comp 추천 알고리즘 호출
+    recommended_comps = recommend_comps(selected_champions, comp_list)
 
     # JSON 변환
-    valid_comps_json = [comp.to_dict() for comp in valid_comps]
+    recommend_comps_json = [comp.to_dict() for comp in recommended_comps]
     response = Response(
-        json.dumps(valid_comps_json, ensure_ascii=False),
+        json.dumps(recommend_comps_json, ensure_ascii=False),
         content_type="application/json; charset=utf-8",
     )
 
     return response
 
-@app.route('/get_champion_list', methods=['GET'])
+
+@app.route("/get_champion_list", methods=["GET"])
 def get_champion_list():
     champion_list_dicts = [champion.to_dict() for champion in champion_list]
-    response = Response(json.dumps(champion_list_dicts, ensure_ascii=False), content_type='application/json; charset=utf-8')
+    response = Response(
+        json.dumps(champion_list_dicts, ensure_ascii=False),
+        content_type="application/json; charset=utf-8",
+    )
     return response
 
 
