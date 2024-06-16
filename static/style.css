@@ -25,31 +25,61 @@ h2 {
 }
 
 .hex-grid>div {
-    width: 60px;
-    height: 60px;
-    /* background-color: #FFFFFF; */
-    margin: 5px;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    width: 63px;
+    height: 80px;
+    margin-bottom: 5px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.hex-grid>div .champion-portrait {
+    width: 57px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hex-grid>div .champion-border {
+    position: absolute;
+    width: 57px;
+    height: 60px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     background-size: cover;
     background-position: center;
 }
 
-.cost-1 {
+.cost-1 .champion-border {
     background-color: #848999;
 }
 
-.cost-2 {
+.cost-2 .champion-border {
     background-color: #11b288;
 }
 
-.cost-3 {
+.cost-3 .champion-border {
     background-color: #207ac7;
 }
+
+.hex-grid>div .champion-image {
+    width: 52px;
+    height: 55px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-size: cover;
+    background-position: center;
+}
+
+.hex-grid>div .champion-name {
+    margin-top: 2px;
+    font-size: 12px;
+    color: white;
+}
+
 
 button {
     padding: 10px 20px;
@@ -88,6 +118,7 @@ button:hover {
 
 .comps-list>div {
     background-color: #23272A;
+    border: 1px solid #323232;
     padding: 10px;
     margin: 5px;
     width: 80%;
@@ -104,11 +135,39 @@ button:hover {
     margin-right: 5px;
 }
 
+.comps-list .champion-portraits>div .champion-portrait {
+    width: 49px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.comps-list .champion-portraits>div .champion-border {
+    position: absolute;
+    width: 48px;
+    height: 50px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-size: cover;
+    background-position: center;
+}
+
+.cost-1.champion-border {
+    background-color: #848999;
+}
+
+.cost-2.champion-border {
+    background-color: #11b288;
+}
+
+.cost-3.champion-border {
+    background-color: #207ac7;
+}
+
 .comps-list .champion-portraits>div .champion-image {
-    width: 40px;
-    height: 40px;
-    margin-right: 5px;
-    margin-left: 5px;
+    height: 47px;
+    width: 45px;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     background-size: cover;
     background-position: center;
@@ -116,6 +175,6 @@ button:hover {
 
 .comps-list .champion-portraits>div .champion-name {
     margin-top: 2px;
-    font-size: 11px;
-    text-align: center;
+    font-size: 10px;
+    color: white;
 }

@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let cost1Div = document.getElementById('cost-1');
     let cost2Div = document.getElementById('cost-2');
     let cost3Div = document.getElementById('cost-3');
-    // let championSelectionDiv = document.getElementById('champion-selection');
     let selectedChampionsDiv = document.getElementById('selected-champions');
     let resultsDiv = document.getElementById('results');
     let resetButton = document.getElementById('reset-button');
@@ -22,9 +21,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 championDict[champion.name] = champion;
 
                 let button = document.createElement('div');
-                button.innerText = champion.name;
-                button.classList.add(`cost-${champion.cost}`)
-                button.style.backgroundImage = `url('/static/images/champions/cost-${championDict[champion.name].cost}/${champion.name}.jpeg')`;
+                button.classList.add(`cost-${champion.cost}`);
+
+                let portrait = document.createElement('div');
+                portrait.classList.add('champion-portrait');
+
+                let borderDiv = document.createElement('div');
+                borderDiv.classList.add('champion-border');
+
+                let imageDiv = document.createElement('div');
+                imageDiv.classList.add('champion-image');
+                imageDiv.style.backgroundImage = `url('/static/images/champions/cost-${championDict[champion.name].cost}/${champion.name}.jpeg')`;
+
+                portrait.append(borderDiv);
+                portrait.append(imageDiv);
+
+                let nameDiv = document.createElement('div');
+                nameDiv.classList.add('champion-name');
+                nameDiv.innerText = champion.name;
+
+                button.append(portrait);
+                button.appendChild(nameDiv);
+
                 button.onclick = function () {
                     toggleChampion(champion.name);
                 };
@@ -52,14 +70,33 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateSelectedChampions() {
         selectedChampionsDiv.innerHTML = '';
         selectedChampions.forEach(champion => {
-            let hex = document.createElement('div');
-            hex.innerText = champion;
-            hex.classList.add(`cost-${championDict[champion].cost}`)
-            hex.style.backgroundImage = `url('/static/images/champions/cost-${championDict[champion].cost}/${champion}.jpeg')`;
-            hex.onclick = function () {
+            let button = document.createElement('div');
+            button.classList.add(`cost-${championDict[champion].cost}`)
+
+            let portrait = document.createElement('div');
+            portrait.classList.add('champion-portrait');
+
+            let borderDiv = document.createElement('div');
+            borderDiv.classList.add('champion-border');
+
+            let imageDiv = document.createElement('div');
+            imageDiv.classList.add('champion-image');
+            imageDiv.style.backgroundImage = `url('/static/images/champions/cost-${championDict[champion].cost}/${champion}.jpeg')`;
+
+            portrait.appendChild(borderDiv);
+            portrait.appendChild(imageDiv);
+
+            let nameDiv = document.createElement('div');
+            nameDiv.classList.add('champion-name');
+            nameDiv.innerText = champion;
+
+            button.appendChild(portrait);
+            button.appendChild(nameDiv);
+
+            button.onclick = function () {
                 toggleChampion(champion);
             }
-            selectedChampionsDiv.appendChild(hex);
+            selectedChampionsDiv.appendChild(button);
         });
     }
 
@@ -76,25 +113,36 @@ document.addEventListener('DOMContentLoaded', function () {
                 data.forEach(item => {
                     let compDiv = document.createElement('div');
                     compDiv.innerText = `${item.score} ${item.comp.name}`;
+                    compDiv.classList.add('comp-container')
 
                     let championPortraits = document.createElement('div');
                     championPortraits.classList.add('champion-portraits');
 
                     item.comp.champions.forEach(championName => {
-                        let championDiv = document.createElement('div');
+                        let PortraitName = document.createElement('div');
+
+                        let portrait = document.createElement('div');
+                        portrait.classList.add('champion-portrait');
+
+                        let borderDiv = document.createElement('div');
+                        borderDiv.classList.add('champion-border');
+                        borderDiv.classList.add(`cost-${championDict[championName].cost}`);
 
                         let imageDiv = document.createElement('div');
                         imageDiv.classList.add('champion-image');
                         imageDiv.style.backgroundImage = `url('/static/images/champions/cost-${championDict[championName].cost}/${championName}.jpeg')`;
 
+                        portrait.appendChild(borderDiv);
+                        portrait.appendChild(imageDiv);
+
                         let nameDiv = document.createElement('div');
                         nameDiv.classList.add('champion-name');
                         nameDiv.innerText = championName;
 
-                        championDiv.appendChild(imageDiv);
-                        championDiv.appendChild(nameDiv);
+                        PortraitName.appendChild(portrait);
+                        PortraitName.appendChild(nameDiv);
 
-                        championPortraits.appendChild(championDiv);
+                        championPortraits.appendChild(PortraitName);
                     });
 
                     compDiv.appendChild(championPortraits);
