@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     function toggleChampion(champion) {
-        const index = selectedChampions.indexOf(champion);
+        const index = selectedChampions.indexOf(c => c.name === champion);
         if (index > -1) {
             selectedChampions.splice(index, 1);
         } else {
-            selectedChampions.push(champion);
+            selectedChampions.push({ name: champion, star: 1 });
         }
         updateSelectedChampions();
         updateComps();
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedChampionsDiv.innerHTML = '';
         selectedChampions.forEach(champion => {
             let button = document.createElement('div');
-            button.classList.add(`cost-${championDict[champion].cost}`)
+            button.classList.add(`cost-${championDict[champion.name].cost}`)
 
             let portrait = document.createElement('div');
             portrait.classList.add('champion-portrait');
@@ -81,20 +81,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let imageDiv = document.createElement('div');
             imageDiv.classList.add('champion-image');
-            imageDiv.style.backgroundImage = `url('/static/images/champions/cost-${championDict[champion].cost}/${champion}.jpeg')`;
+            imageDiv.style.backgroundImage = `url('/static/images/champions/cost-${championDict[champion.name].cost}/${champion.name}.jpeg')`;
 
             portrait.appendChild(borderDiv);
             portrait.appendChild(imageDiv);
 
             let nameDiv = document.createElement('div');
             nameDiv.classList.add('champion-name');
-            nameDiv.innerText = champion;
+            nameDiv.innerText = champion.name;
+
+            let starSelect = document.createElement('select');
+            starSelect.classList.add('star-select');
+            starSelect.innerHTML = `
+                <option value="1" ${champion.star === 1 ? 'selected' : ''}>★</option>
+                <option value="2" ${champion.star === 2 ? 'selected' : ''}>★★</option>
+                <option value="3" ${champion.star === 3 ? 'selected' : ''}>★★★</option>
+            `;
+            starSelect.onchange = function (event) {
+                event.stopPropagation(); // 이벤트 버블링 방지
+                champion.star = parseInt(starSelect.value);
+                updateComps();
+            };
 
             button.appendChild(portrait);
             button.appendChild(nameDiv);
+            button.appendChild(starSelect);
 
-            button.onclick = function () {
-                toggleChampion(champion);
+            button.onclick = function (event) {
+                if (event.target.tagName !== 'SELECT') {
+                    toggleChampion(champion.name);
+                }
             }
             selectedChampionsDiv.appendChild(button);
         });

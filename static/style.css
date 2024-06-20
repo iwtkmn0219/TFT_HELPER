@@ -110,6 +110,12 @@ button:hover {
     margin-bottom: 20px;
 }
 
+.star-select {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #000;
+}
+
 .comps-list {
     display: flex;
     flex-direction: column;
