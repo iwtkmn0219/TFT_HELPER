@@ -4,7 +4,7 @@ class Comp:
         self.champions = champions
 
     def __repr__(self) -> str:
-        return f"[name: {self.name}, champions: {self.champions}]"
+        return f"name: {self.name}, champions: {self.champions}"
 
     def to_dict(self) -> None:
         return {"name": self.name, "champions": self.champions}

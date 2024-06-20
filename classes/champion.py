@@ -5,7 +5,7 @@ class Champion:
         self.star = star
 
     def __repr__(self) -> str:
-        return f"{self.cost} {self.name} {'★' * self.star}"
+        return f"cost: {self.cost}, name: {self.name}, star: {self.star}"
 
     def to_dict(self):
         return {"name": self.name, "cost": self.cost, "star": self.star}
