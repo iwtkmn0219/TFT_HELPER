@@ -6,38 +6,12 @@ import sqlite3
 from classes.champion import Champion
 from classes.comp import Comp
 from algorithm.recommendation import recommend_comps
+from db.database_manage import load_data_from_db
 
 app = Flask(__name__)
 
 # 데이터 불러오기
-conn = sqlite3.connect("tft_helper.db")
-curr = conn.cursor()
-champions = curr.execute("select * from champion").fetchall()
-champion_list = [
-    Champion(champion[1], champion[2], 2, [champion[3], champion[4], champion[5]])
-    for champion in champions
-]
-champion_dict = {
-    champion[1]: Champion(
-        champion[1], champion[2], 2, [champion[3], champion[4], champion[5]]
-    )
-    for champion in champions
-}
-
-comp_list = []
-comps = curr.execute("select * from comp").fetchall()
-for comp in comps:
-    comp_id = comp[0]
-    comp_name = comp[1]
-    champions = curr.execute(
-        f"""
-        select ch.name 
-        from champion as ch 
-        inner join comp_champion as co 
-        on ch.id = co.champion_id
-        where co.comp_id = {comp_id}"""
-    ).fetchall()
-    comp_list.append(Comp(comp_name, [champion[0] for champion in champions]))
+champion_list, champion_dict, comp_list = load_data_from_db()
 
 
 @app.route("/")
