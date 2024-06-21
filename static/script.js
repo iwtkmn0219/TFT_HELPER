@@ -61,7 +61,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (index > -1) {
             selectedChampions.splice(index, 1);
         } else {
-            selectedChampions.push({ name: champion, star: 1 });
+            if (championDict[champion].cost === 1)
+                selectedChampions.push({ name: champion, star: 2 })
+            else
+                selectedChampions.push({ name: champion, star: 1 });
         }
         updateSelectedChampions();
         updateComps();

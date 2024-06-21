@@ -34,7 +34,7 @@ def calculate_comp_score(comp: Comp) -> int:
     comp_score = 0
     for champion_name in comp.champions:
         if champion_name in selected_champion_dict:
-            comp_score += piece_value(champion_dict[champion_name])
+            comp_score += piece_value(selected_champion_dict[champion_name])
     return comp_score
 
 
@@ -43,25 +43,10 @@ def piece_value(champion: Champion) -> int:
     value = 0
     cost = champion.cost
     star = champion.star
-    if cost == 1:
-        if star == 1:
-            value += 1
-        elif star == 2:
-            value += 4
-        elif star == 3:
-            value += 9
-    elif cost == 2:
-        if star == 1:
-            value += 1
-        elif star == 2:
-            value += 5
-        elif star == 3:
-            value += 17
-    elif cost == 3:
-        if star == 1:
-            value += 3
-        elif star == 2:
-            value += 8
-        elif star == 3:
-            value += 26
+    if star == 1:
+        return champion.value[0]
+    elif star == 2:
+        return champion.value[1]
+    elif star == 3:
+        return champion.value[2]
     return value
