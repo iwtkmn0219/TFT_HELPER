@@ -1,4 +1,5 @@
 import pickle
+from db.database_manage import load_data_from_db
 from classes.champion import Champion
 from classes.comp import Comp
 
@@ -6,11 +7,7 @@ champion_dict = {}
 comp_list = []
 selected_champion_dict = {}
 # 데이터 불러오기
-with open("champion_list.pkl", "rb") as file:
-    champion_list = pickle.load(file)
-    champion_dict = {champion.name: champion for champion in champion_list}
-with open("comp_list.pkl", "rb") as file:
-    comp_list = pickle.load(file)
+champion_list, champion_dict, comp_list = load_data_from_db()
 
 
 # comp 추천
