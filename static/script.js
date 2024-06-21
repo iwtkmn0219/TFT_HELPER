@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     function toggleChampion(champion) {
-        const index = selectedChampions.indexOf(c => c.name === champion);
+        const index = selectedChampions.findIndex(c => c.name === champion);
         if (index > -1) {
             selectedChampions.splice(index, 1);
         } else {
