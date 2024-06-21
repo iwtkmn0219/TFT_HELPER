@@ -27,7 +27,12 @@ def get_comps():
     # 선택된 챔피언들을 객체로 변환
     selected_champion_objects = [
         # champion_dict[champion] for champion in selected_champions
-        Champion(champion['name'], champion_dict[champion['name']].cost, champion['star'], champion_dict[champion['name']].value)
+        Champion(
+            champion["name"],
+            champion_dict[champion["name"]].cost,
+            champion["star"],
+            champion_dict[champion["name"]].value,
+        )
         for champion in selected_champions
     ]
     # comp 추천 알고리즘 호출
