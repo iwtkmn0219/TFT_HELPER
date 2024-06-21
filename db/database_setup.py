@@ -2,8 +2,8 @@ import sqlite3
 import pickle
 import os
 
-from classes.comp import Comp
-from classes.champion import Champion
+# from classes.comp import Comp
+# from classes.champion import Champion
 
 # 데이터베이스 연결 및 테이블 생성
 conn = sqlite3.connect("tft_helper.db")
@@ -381,21 +381,28 @@ def show_db(entity):
 #     # print(comp)
 #     insert_cc(comp.champions, comp.name)
 
-i = 48
-for _ in range(6):
-    cursor.execute("""select ROWID from comp_champion limit 1 OFFSET ?""", (i,))
-    row = cursor.fetchone()
-    rowid = row[0]
-    print(rowid)
+# i = 48
+# for _ in range(6):
+#     cursor.execute("""select ROWID from comp_champion limit 1 OFFSET ?""", (i,))
+#     row = cursor.fetchone()
+#     rowid = row[0]
+#     print(rowid)
 
-    cursor.execute('''
-        UPDATE comp_champion
-        SET comp_id = ?
-        WHERE ROWID = ?
-        ''', (8, rowid))
-    conn.commit()
-    i += 1
+#     cursor.execute('''
+#         UPDATE comp_champion
+#         SET comp_id = ?
+#         WHERE ROWID = ?
+#         ''', (8, rowid))
+#     conn.commit()
+#     i += 1
 
-show_db("comp_champion")
 
+cursor.execute("""
+update champion
+set value2 = 160
+where cost = 1
+""")
+show_db("champion")
+
+conn.commit()
 conn.close()
