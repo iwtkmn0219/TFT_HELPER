@@ -17,6 +17,26 @@ h2 {
     color: #FFA500;
 }
 
+#nav-bar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#admin-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #FFA500;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#admin-button:hover {
+    background-color: #E69500;
+}
+
 .hex-grid {
     display: flex;
     flex-wrap: wrap;

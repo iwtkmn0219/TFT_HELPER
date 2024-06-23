@@ -18,6 +18,10 @@ champion_list, champion_dict, comp_list = load_data_from_db()
 def index():
     return render_template("index.html")
 
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
 
 @app.route("/get_comps", methods=["POST"])
 def get_comps():

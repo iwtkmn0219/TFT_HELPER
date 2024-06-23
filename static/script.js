@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
     let selectedChampionsDiv = document.getElementById('selected-champions');
     let resultsDiv = document.getElementById('results');
     let resetButton = document.getElementById('reset-button');
+    let adminButton = document.getElementById('admin-button');
+
+    adminButton.onclick = function () {
+        const password = prompt("비밀번호를 입력하세요:");
+        if (password === '240701') {
+            window.location.href = '/admin';
+        } else {
+            alert('비밀번호가 잘못되었습니다.');
+        }
+    }
 
     // 챔피언 목록을 서버에서 불러오기
     fetch('/get_champion_list', {
