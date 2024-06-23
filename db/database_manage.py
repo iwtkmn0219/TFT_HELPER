@@ -45,7 +45,6 @@ def load_data_from_db(dp_path="tft_helper.db"):
 def update_champion_value(champion_name: str, value_list: list) -> None:
     with sqlite3.connect("tft_helper.db") as conn:
         curr = conn.cursor()
-        # 챔피언 밸류 수정 구문
         curr.execute(
             """
             update champion
@@ -53,4 +52,16 @@ def update_champion_value(champion_name: str, value_list: list) -> None:
             where name = ?
         """,
             (value_list[0], value_list[1], value_list[2], champion_name),
+        )
+
+
+def delete_comp(comp_name) -> None:
+    with sqlite3.connect("tft_helper.db") as conn:
+        curr = conn.cursor()
+        curr.execute(
+            """
+            delete from comp
+            where name = ?
+        """,
+            (comp_name),
         )

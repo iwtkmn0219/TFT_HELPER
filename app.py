@@ -76,7 +76,6 @@ def update_champion_values():
         champion = next((c for c in champion_list if c.name == name), None)
         if champion:
             champion.value = value
-            # 데이터베이스 업데이트 로직 추가 예정
             database_manage.update_champion_value(name, value)
     return jsonify({"status": "success"})
 
@@ -93,7 +92,7 @@ def get_comp_list():
 def delete_comp(comp_name):
     global comp_list
     comp_list = [comp for comp in comp_list if comp.name != comp_name]
-    # 데이터베이스에서 삭제 로직 추가
+    database_manage.delete_comp(comp_name)
     return jsonify({"status": "success"})
 
 
