@@ -51,6 +51,7 @@ function saveChampionsValues() {
     }).then(response => response.json())
         .then(data => {
             alert('챔피언 밸류가 업데이트되었습니다.');
+            window.location.reload();
         });
 }
 

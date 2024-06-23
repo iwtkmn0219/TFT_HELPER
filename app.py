@@ -7,6 +7,7 @@ from classes.champion import Champion
 from classes.comp import Comp
 from algorithm.recommendation import recommend_comps
 from db.database_manage import load_data_from_db
+from db import database_manage
 
 app = Flask(__name__)
 
@@ -71,11 +72,12 @@ def update_champion_values():
     champion_values = request.json
     for champion_data in champion_values:
         name = champion_data["name"]
-        value = champion_data["value"]
+        value = list(map(int, champion_data["value"]))
         champion = next((c for c in champion_list if c.name == name), None)
         if champion:
             champion.value = value
             # 데이터베이스 업데이트 로직 추가 예정
+            database_manage.update_champion_value(name, value)
     return jsonify({"status": "success"})
 
 

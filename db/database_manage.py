@@ -40,3 +40,17 @@ def load_data_from_db(dp_path="tft_helper.db"):
             comp_list.append(Comp(comp_name, [champion[0] for champion in champions]))
 
     return champion_list, champion_dict, comp_list
+
+
+def update_champion_value(champion_name: str, value_list: list) -> None:
+    with sqlite3.connect("tft_helper.db") as conn:
+        curr = conn.cursor()
+        # 챔피언 밸류 수정 구문
+        curr.execute(
+            """
+            update champion
+            set value1 = ?, value2 = ?, value3 = ?
+            where name = ?
+        """,
+            (value_list[0], value_list[1], value_list[2], champion_name),
+        )
