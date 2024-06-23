@@ -204,3 +204,26 @@ button:hover {
     font-size: 10px;
     color: white;
 }
+
+#champion-value-section,
+#comp-section {
+    margin: 20px;
+}
+
+#champion-list,
+#comp-list {
+    margin: 10px 0;
+}
+
+.champion-item,
+.comp-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.champion-item input,
+.comp-item input {
+    margin-left: 10px;
+    padding: 5px;
+}

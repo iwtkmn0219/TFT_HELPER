@@ -9,4 +9,4 @@ class Champion:
         return f"cost: {self.cost}, name: {self.name}, star: {self.star}, value: {self.value}"
 
     def to_dict(self):
-        return {"name": self.name, "cost": self.cost, "star": self.star}
+        return {"name": self.name, "cost": self.cost, "star": self.star, "value": self.value}

@@ -5,11 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 페이지</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/admin.js"></script>
 </head>
 
 <body>
     <h1>관리자 페이지</h1>
-    <p>이곳은 관리자 전용 페이지입니다.</p>
+    <div id="champion-value-section">
+        <h2>챔피언 밸류 수정</h2>
+        <div id="champion-list">
+            <!-- 챔피언 목록이 동적으로 추가될 영역 -->
+        </div>
+        <button onclick="saveChampionValues()">저장</button>
+    </div>
+    <div id="comp-section">
+        <h2>조합 관리</h2>
+        <div id="comp-list">
+            <!-- 조합 목록이 동적으로 추가될 영역 -->
+        </div>
+        <button onclick="createNewComp()">새 조합 추가</button>
+    </div>
 </body>
 
 </html>

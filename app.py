@@ -18,6 +18,7 @@ champion_list, champion_dict, comp_list = load_data_from_db()
 def index():
     return render_template("index.html")
 
+
 @app.route("/admin")
 def admin():
     return render_template("admin.html")
@@ -63,6 +64,47 @@ def get_champion_list():
         content_type="application/json; charset=utf-8",
     )
     return response
+
+
+@app.route("/update_champion_values")
+def update_champion_values():
+    champion_values = request.json()
+    for champion_data in champion_values:
+        name = champion_data["name"]
+        value = champion_data["value"]
+        champion = next((c for c in champion_list if c.name == name), None)
+        if champion:
+            champion.value = value
+            # 데이터베이스 업데이트 로직 추가 예정
+    return jsonify({"status": "success"})
+
+
+@app.route("/get_comp_list")
+def get_comp_list():
+    comp_list_dicts = [
+        {"name": comp.name, "champions": comp.champions} for comp in comp_list
+    ]
+    return jsonify(comp_list_dicts)
+
+
+@app.route("/delete_comp/<comp_name>", methods=["DELETE"])
+def delete_comp(comp_name):
+    global comp_list
+    comp_list = [comp for comp in comp_list if comp.name != comp_name]
+    # 데이터베이스에서 삭제 로직 추가
+    return jsonify({"status": "success"})
+
+
+@app.route("/update_comp", methods=["POST"])
+def update_comp():
+    data = request.json
+    name = data["name"]
+    champions = data["champions"]
+    comp = next((c for c in comp_list if c.name == name), None)
+    if comp:
+        comp.champions = champions
+        # 데이터베이스 업데이트 로직 추가
+    return jsonify({"status": "success"})
 
 
 if __name__ == "__main__":
