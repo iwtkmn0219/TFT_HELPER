@@ -47,7 +47,7 @@ function saveChampionsValues() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(championValues)
+        body: JSON.stringify(championValuesArray)
     }).then(response => response.json())
         .then(data => {
             alert('챔피언 밸류가 업데이트되었습니다.');

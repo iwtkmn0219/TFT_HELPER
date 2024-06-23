@@ -66,9 +66,9 @@ def get_champion_list():
     return response
 
 
-@app.route("/update_champion_values")
+@app.route("/update_champion_values", methods=["POST"])
 def update_champion_values():
-    champion_values = request.json()
+    champion_values = request.json
     for champion_data in champion_values:
         name = champion_data["name"]
         value = champion_data["value"]
