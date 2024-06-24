@@ -137,8 +137,10 @@ function loadCompList() {
                     <span>${comp.name}</span>
                     <div>
                         <input type="text" value="${comp.champions.join(', ')}" data-comp="${comp.name}">
-                        <button onclick="deleteComp('${comp.name}')">삭제</button>
-                        <button onclick="updateComp('${comp.name}')">수정</button>
+                        <div>
+                            <button onclick="updateComp('${comp.name}')">수정</button>
+                            <button onclick="deleteComp('${comp.name}')">삭제</button>
+                        <div>
                     <div>
                 `;
                 compListDiv.appendChild(compItem);
@@ -152,6 +154,7 @@ function deleteComp(compName) {
     }).then(response => response.json())
         .then(data => {
             alert('조합이 삭제되었습니다.');
+            loadCompList();
             window.location.reload();
         });
 }
@@ -171,6 +174,7 @@ function updateComp(compName) {
         }).then(response => response.json())
             .then(data => {
                 alert('조합이 수정되었습니다.');
+                loadCompList();
                 window.location.reload();
             });
     }
