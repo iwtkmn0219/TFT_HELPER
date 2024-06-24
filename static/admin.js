@@ -19,7 +19,75 @@ function loadChampionList() {
                 `;
                 championListDiv.appendChild(championItem);
             });
+            loadNewCompChampionList(champions);
         });
+}
+
+function loadNewCompChampionList(champions) {
+    const newCompChampionsDiv = document.getElementById('new-comp-champions');
+    champions.forEach(champion => {
+        const championItem = document.createElement('div');
+        championItem.classList.add('champion-item');
+        championItem.innerHTML = `
+            <span>${champion.name}</span>
+            <button onclick="toggleChampionSelection('${champion.name}')">추가</button>
+        `;
+        newCompChampionsDiv.appendChild(championItem);
+    });
+}
+
+let selectedNewCompChampions = [];
+
+function toggleChampionSelection(championName) {
+    const index = selectedNewCompChampions.indexOf(championName);
+    if (index > -1) {
+        selectedNewCompChampions.splice(index, 1);
+    } else {
+        selectedNewCompChampions.push(championName);
+    }
+    updateSelectedNewCompChampions();
+}
+
+function updateSelectedNewCompChampions() {
+    const selectedDiv = document.getElementById('new-comp-champions-selected');
+    selectedDiv.innerHTML = '';
+    selectedNewCompChampions.forEach(championName => {
+        const div = document.createElement('div');
+        div.innerText = championName;
+        selectedDiv.appendChild(div);
+    });
+}
+
+function saveNewComp() {
+    const compName = document.getElementById('new-comp-name').value;
+    if (compName && selectedNewCompChampions.length > 0) {
+        fetch('/add_comp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: compName,
+                champions: selectedNewCompChampions
+            })
+        }).then(response => response.json())
+            .then(data => {
+                alert('새 조합이 추가되었습니다.');
+                window.location.reload(); // 페이지 새로고침
+            });
+    } else {
+        alert('조합 이름과 챔피언을 선택해주세요.');
+    }
+}
+
+function createNewComp() {
+    document.getElementById('new-comp-section').style.display = 'block';
+}
+
+function cancelNewComp() {
+    document.getElementById('new-comp-section').style.display = 'none';
+    selectedNewCompChampions = [];
+    updateSelectedNewCompChampions();
 }
 
 function saveChampionsValues() {
@@ -74,20 +142,13 @@ function loadCompList() {
         });
 }
 
-function createNewComp() {
-    const newCompName = prompt('새 조합 이름을 입력하세요:');
-    if (newCompName) {
-        // 새로운 조합 추가 로직
-    }
-}
-
 function deleteComp(compName) {
     fetch(`/delete_comp/${compName}`, {
         method: 'DELETE'
     }).then(response => response.json())
         .then(data => {
             alert('조합이 삭제되었습니다.');
-            loadCompList();
+            window.location.reload();
         });
 }
 

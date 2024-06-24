@@ -25,6 +25,18 @@
         </div>
         <button onclick="createNewComp()">새 조합 추가</button>
     </div>
+    <div id="new-comp-section" style="display: none;">
+        <h2> 새 조합 생성 </h2>
+        <input type="text" id="new-comp-name" placeholder="조합 이름">
+        <button onclick="saveNewComp()">저장</button>
+        <button onclick="cancelNewComp()">취소</button>
+        <div id="new-comp-champions-selected">
+            <!-- 선택된 챔피언 목록이 추가될 영역 -->
+        </div>
+        <div id="new-comp-champions">
+            <!-- 챔피언 목록이 동적으로 추가될 영역 -->
+        </div>
+    </div>
 </body>
 
 </html>

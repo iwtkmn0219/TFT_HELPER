@@ -64,7 +64,7 @@ def get_champion_list():
         json.dumps(champion_list_dicts, ensure_ascii=False),
         content_type="application/json; charset=utf-8",
     )
-    return response
+    return jsonify(champion_list_dicts)
 
 
 @app.route("/update_champion_values", methods=["POST"])
@@ -105,6 +105,17 @@ def update_comp():
     if comp:
         comp.champions = champions
         # 데이터베이스 업데이트 로직 추가
+    return jsonify({"status": "success"})
+
+
+@app.route("/add_comp", methods=["POST"])
+def add_comp():
+    data = request.json
+    name = data["name"]
+    champions = data["champions"]
+    new_comp = Comp(name, champions)
+    comp_list.append(new_comp)
+    database_manage.add_comp(name, champions)
     return jsonify({"status": "success"})
 
 
