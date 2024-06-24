@@ -104,7 +104,7 @@ def update_comp():
     comp = next((c for c in comp_list if c.name == name), None)
     if comp:
         comp.champions = champions
-        # 데이터베이스 업데이트 로직 추가
+        database_manage.update_comp(name, champions)
     return jsonify({"status": "success"})
 
 

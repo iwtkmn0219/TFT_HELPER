@@ -104,3 +104,29 @@ def add_comp(name: str, champions: list) -> None:
                     champion_name,
                 ),
             )
+
+
+def update_comp(name, champions):
+    with sqlite3.connect("tft_helper.db") as conn:
+        curr = conn.cursor()
+        curr.execute(
+            """
+            delete from comp_champion
+            where comp_id = (
+                select id from comp
+                where name = ?)
+        """,
+            (name,),
+        )
+        for champion_name in champions:
+            curr.execute(
+                """
+                insert into comp_champion (comp_id, champion_id)
+                values ((
+                    select id from comp
+                    where name = ?), (
+                    select id from champion
+                    where name = ?))
+            """,
+                (name, champion_name),
+            )

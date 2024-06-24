@@ -171,7 +171,7 @@ function updateComp(compName) {
         }).then(response => response.json())
             .then(data => {
                 alert('조합이 수정되었습니다.');
-                loadCompList();
+                window.location.reload();
             });
     }
 }
