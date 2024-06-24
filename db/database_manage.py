@@ -58,6 +58,7 @@ def update_champion_value(champion_name: str, value_list: list) -> None:
                 champion_name,
             ),
         )
+        conn.commit()
 
 
 def delete_comp(comp_name) -> None:
@@ -79,6 +80,7 @@ def delete_comp(comp_name) -> None:
         """,
             (comp_name,),
         )
+        conn.commit()
 
 
 def add_comp(name: str, champions: list) -> None:
@@ -104,6 +106,7 @@ def add_comp(name: str, champions: list) -> None:
                     champion_name,
                 ),
             )
+        conn.commit()
 
 
 def update_comp(name, champions):
@@ -130,3 +133,4 @@ def update_comp(name, champions):
             """,
                 (name, champion_name),
             )
+        conn.commit()

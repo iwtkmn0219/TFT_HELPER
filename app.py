@@ -17,6 +17,8 @@ champion_list, champion_dict, comp_list = load_data_from_db()
 
 @app.route("/")
 def index():
+    global champion_list, champion_dict, comp_list
+    champion_list, champion_dict, comp_list = load_data_from_db()
     return render_template("index.html")
 
 
