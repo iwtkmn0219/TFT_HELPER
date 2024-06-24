@@ -205,24 +205,42 @@ button:hover {
     color: white;
 }
 
+/* 관리자 페이지 */
 #champion-value-section,
 #comp-section {
     margin: 20px;
 }
 
-#champion-list,
+
+#champion-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.champion-item {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+
+.champion-item input {
+    width: 50px;
+    height: 16px;
+}
+
 #comp-list {
     margin: 10px 0;
 }
 
-.champion-item,
 .comp-item {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.champion-item input,
 .comp-item input {
     margin-left: 10px;
     padding: 5px;

@@ -13,9 +13,11 @@ function loadChampionList() {
                 championItem.classList.add('champion-item');
                 championItem.innerHTML = `
                     <span>${champion.name}</span>
-                    <input type="text" value="${champion.value[0]}" data-champion="${champion.name}" data-index="0">
-                    <input type="text" value="${champion.value[1]}" data-champion="${champion.name}" data-index="1">
-                    <input type="text" value="${champion.value[2]}" data-champion="${champion.name}" data-index="2">
+                    <div>
+                        <input type="text" value="${champion.value[0]}" data-champion="${champion.name}" data-index="0">
+                        <input type="text" value="${champion.value[1]}" data-champion="${champion.name}" data-index="1">
+                        <input type="text" value="${champion.value[2]}" data-champion="${champion.name}" data-index="2">
+                    <div>
                 `;
                 championListDiv.appendChild(championItem);
             });
@@ -133,9 +135,11 @@ function loadCompList() {
                 compItem.classList.add('comp-item');
                 compItem.innerHTML = `
                     <span>${comp.name}</span>
-                    <input type="text" value="${comp.champions.join(', ')}" data-comp="${comp.name}">
-                    <button onclick="deleteComp('${comp.name}')">삭제</button>
-                    <button onclick="updateComp('${comp.name}')">수정</button>
+                    <div>
+                        <input type="text" value="${comp.champions.join(', ')}" data-comp="${comp.name}">
+                        <button onclick="deleteComp('${comp.name}')">삭제</button>
+                        <button onclick="updateComp('${comp.name}')">수정</button>
+                    <div>
                 `;
                 compListDiv.appendChild(compItem);
             });
