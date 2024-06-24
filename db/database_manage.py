@@ -51,7 +51,12 @@ def update_champion_value(champion_name: str, value_list: list) -> None:
             set value1 = ?, value2 = ?, value3 = ?
             where name = ?
         """,
-            (value_list[0], value_list[1], value_list[2], champion_name),
+            (
+                value_list[0],
+                value_list[1],
+                value_list[2],
+                champion_name,
+            ),
         )
 
 
@@ -63,5 +68,39 @@ def delete_comp(comp_name) -> None:
             delete from comp
             where name = ?
         """,
-            (comp_name),
+            (comp_name,),
         )
+        curr.execute(
+            """
+            delete from comp_champion
+            where comp_id = (
+                select id from comp
+                where name = ?)
+        """,
+            (comp_name,),
+        )
+
+
+def add_comp(name: str, champions: list) -> None:
+    with sqlite3.connect("tft_helper.db") as conn:
+        curr = conn.cursor()
+        curr.execute(
+            """
+            insert into comp (name) values(?)
+        """,
+            (name,),
+        )
+        comp_id = curr.lastrowid
+        for champion_name in champions:
+            curr.execute(
+                """
+                insert into comp_champion (comp_id, champion_id)
+                values (?, (
+                    select id from champion
+                    where name = ?))
+            """,
+                (
+                    comp_id,
+                    champion_name,
+                ),
+            )

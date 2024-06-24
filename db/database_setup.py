@@ -300,7 +300,10 @@ def insert_cc(champion_name_list, comp_name):
         VALUES (
             (SELECT id FROM champion WHERE name = ?),
             (SELECT id FROM comp WHERE name = ?))""",
-            (champion_name, comp_name,),
+            (
+                champion_name,
+                comp_name,
+            ),
         )
         conn.commit()
 
@@ -313,7 +316,10 @@ def insert_ct(champion_name_list: list, trait_name):
         VALUES (
             (SELECT id FROM champion WHERE name = ?),
             (SELECT id FROM trait WHERE name = ?))""",
-            (champion_name, trait_name,),
+            (
+                champion_name,
+                trait_name,
+            ),
         )
 
 
@@ -397,11 +403,13 @@ def show_db(entity):
 #     i += 1
 
 
-cursor.execute("""
+cursor.execute(
+    """
 update champion
 set value2 = 160
 where cost = 1
-""")
+"""
+)
 show_db("champion")
 
 conn.commit()
