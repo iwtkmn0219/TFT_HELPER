@@ -12,6 +12,7 @@ champion_list, champion_dict, comp_list = load_data_from_db()
 
 # comp 추천
 def recommend_comps(selected_champions: list) -> list:
+    _, _, comp_list = load_data_from_db()
     selected_champion_dict.clear()
     for champion in selected_champions:
         selected_champion_dict[champion.name] = champion

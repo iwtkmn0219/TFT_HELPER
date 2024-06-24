@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Response, render_template
+from flask import Flask, request, jsonify, Response, render_template, redirect, url_for
 import pickle
 import json
 import sqlite3
@@ -14,11 +14,8 @@ app = Flask(__name__)
 # 데이터 불러오기
 champion_list, champion_dict, comp_list = load_data_from_db()
 
-
 @app.route("/")
 def index():
-    global champion_list, champion_dict, comp_list
-    champion_list, champion_dict, comp_list = load_data_from_db()
     return render_template("index.html")
 
 
@@ -29,6 +26,7 @@ def admin():
 
 @app.route("/get_comps", methods=["POST"])
 def get_comps():
+    _, champion_dict, comp_list = load_data_from_db()
     data = request.json
     selected_champions = data.get("champions", [])
 
@@ -61,11 +59,8 @@ def get_comps():
 
 @app.route("/get_champion_list", methods=["GET"])
 def get_champion_list():
+    champion_list, _, _ = load_data_from_db()
     champion_list_dicts = [champion.to_dict() for champion in champion_list]
-    response = Response(
-        json.dumps(champion_list_dicts, ensure_ascii=False),
-        content_type="application/json; charset=utf-8",
-    )
     return jsonify(champion_list_dicts)
 
 
@@ -79,11 +74,13 @@ def update_champion_values():
         if champion:
             champion.value = value
             database_manage.update_champion_value(name, value)
+    champion_list, champion_dict, _ = load_data_from_db()
     return jsonify({"status": "success"})
 
 
 @app.route("/get_comp_list")
 def get_comp_list():
+    _, _, comp_list = load_data_from_db()
     comp_list_dicts = [
         {"name": comp.name, "champions": comp.champions} for comp in comp_list
     ]
@@ -92,7 +89,7 @@ def get_comp_list():
 
 @app.route("/delete_comp/<comp_name>", methods=["DELETE"])
 def delete_comp(comp_name):
-    global comp_list
+    _, _, comp_list = load_data_from_db()
     comp_list = [comp for comp in comp_list if comp.name != comp_name]
     database_manage.delete_comp(comp_name)
     return jsonify({"status": "success"})
@@ -100,6 +97,7 @@ def delete_comp(comp_name):
 
 @app.route("/update_comp", methods=["POST"])
 def update_comp():
+    _, _, comp_list = load_data_from_db()
     data = request.json
     name = data["name"]
     champions = data["champions"]
