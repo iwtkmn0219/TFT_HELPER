@@ -25,16 +25,26 @@ function loadChampionList() {
         });
 }
 
+
 function loadNewCompChampionList(champions) {
-    const newCompChampionsDiv = document.getElementById('new-comp-champions');
+    let cost1Div = document.querySelector('#cost-1');
+    let cost2Div = document.querySelector('#cost-2');
+    let cost3Div = document.querySelector('#cost-3');
     champions.forEach(champion => {
-        const championItem = document.createElement('div');
-        championItem.classList.add('champion-item');
+        let championItem = document.createElement('div');
+        championItem.classList.add(`cost-${champion.cost}`);
         championItem.innerHTML = `
             <span>${champion.name}</span>
-            <button onclick="toggleChampionSelection('${champion.name}')">추가</button>
+            <button onclick="toggleChampionSelection('${champion.name}')">+</button>
         `;
-        newCompChampionsDiv.appendChild(championItem);
+
+        if (champion.cost === 1) {
+            cost1Div.appendChild(championItem);
+        } else if (champion.cost === 2) {
+            cost2Div.appendChild(championItem);
+        } else if (champion.cost === 3) {
+            cost3Div.appendChild(championItem);
+        }
     });
 }
 
@@ -83,11 +93,16 @@ function saveNewComp() {
 }
 
 function createNewComp() {
-    document.getElementById('new-comp-section').style.display = 'block';
+    const section = document.getElementById('new-comp-section');
+    section.classList.remove('hidden');
+    section.classList.add('visible');
 }
 
 function cancelNewComp() {
-    document.getElementById('new-comp-section').style.display = 'none';
+    const section = document.getElementById('new-comp-section');
+    section.classList.remove('visible');
+    section.classList.add('hidden');
+
     selectedNewCompChampions = [];
     updateSelectedNewCompChampions();
 }

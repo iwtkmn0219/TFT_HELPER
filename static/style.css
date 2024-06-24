@@ -260,3 +260,62 @@ button:hover {
 .comp-item button {
     padding: 5px 5px;
 }
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#new-comp-champions-selected {
+    display: flex;
+    align-items: center;
+}
+
+#new-comp-champions-selected>div {
+    margin: 0px 5px;
+}
+
+#new-comp-input {
+    display: flex;
+    align-items: center;
+}
+
+#new-comp-input button {
+    padding: 0px 5px;
+    margin-left: 5px;
+}
+
+#new-comp-champions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    margin-top: 5px;
+}
+
+#new-comp-champions button {
+    padding: 2px 3px;
+}
+
+#cost-1,
+#cost-2,
+#cost-3 {
+    width: 95%;
+    display: flex;
+    margin-bottom: 5px;
+}
+
+#cost-1 .cost-1,
+#cost-2 .cost-2,
+#cost-3 .cost-3 {
+    display: flex;
+    width: 20%;
+    font-size: small;
+    justify-content: space-between;
+    align-items: center;
+}
